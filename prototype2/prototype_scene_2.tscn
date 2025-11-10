@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6oh4a4ybmga7"]
+[gd_scene load_steps=13 format=3 uid="uid://b6oh4a4ybmga7"]
 
 [ext_resource type="PackedScene" uid="uid://dcvw0imtyff08" path="res://prototype2/player.tscn" id="1_c7vvo"]
+[ext_resource type="Script" uid="uid://crkji028ygt2h" path="res://prototype2/prototype_scene_2.gd" id="1_gflpa"]
 [ext_resource type="PackedScene" uid="uid://cw2w8kliknx0a" path="res://prototype2/cameraman.tscn" id="2_udlgo"]
 [ext_resource type="PackedScene" uid="uid://xuvsseruv6m" path="res://prototype2/borders.tscn" id="3_qj78v"]
+[ext_resource type="PackedScene" uid="uid://olf8stvepb5s" path="res://prototype2/debug_ui.tscn" id="4_4lfdd"]
+[ext_resource type="PackedScene" uid="uid://b1uedykofnc5u" path="res://prototype2/enemy_core.tscn" id="5_pvorq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_coa7m"]
 
@@ -12,13 +15,23 @@ sky_material = SubResource("ProceduralSkyMaterial_coa7m")
 [sub_resource type="Environment" id="Environment_udlgo"]
 background_mode = 2
 sky = SubResource("Sky_c7vvo")
+glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c7vvo"]
 albedo_color = Color(0.63375676, 0.6337568, 0.63375676, 1)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_c7vvo"]
 
-[node name="PrototypeScene2" type="Node3D"]
+[sub_resource type="Curve3D" id="Curve3D_pvorq"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -3, 0, -3, 0, 0, 0, 0, 0, 0, 3, 0, -3),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="PrototypeScene2" type="Node3D" groups=["World"]]
+script = ExtResource("1_gflpa")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_udlgo")
@@ -36,7 +49,7 @@ material = SubResource("StandardMaterial3D_c7vvo")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_c7vvo")
 
-[node name="Player" parent="." instance=ExtResource("1_c7vvo")]
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("1_c7vvo")]
 
 [node name="Cameraman" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_udlgo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
@@ -46,3 +59,14 @@ player = NodePath("../Player")
 
 [node name="Borders" parent="CanvasLayer" node_paths=PackedStringArray("cameraman") instance=ExtResource("3_qj78v")]
 cameraman = NodePath("../../Cameraman")
+
+[node name="DebugUI" parent="CanvasLayer" instance=ExtResource("4_4lfdd")]
+
+[node name="CorePath" type="Path3D" parent="."]
+curve = SubResource("Curve3D_pvorq")
+
+[node name="CorePathFollow" type="PathFollow3D" parent="CorePath"]
+transform = Transform3D(-4.371138e-08, 0, -0.9999998, 0, 1, 0, 0.9999998, 0, -4.371138e-08, -3, 0, -3)
+
+[node name="EnemyCore" parent="CorePath/CorePathFollow" instance=ExtResource("5_pvorq")]
+motion_mode = 0

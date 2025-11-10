@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcvw0imtyff08"]
+[gd_scene load_steps=6 format=3 uid="uid://dcvw0imtyff08"]
 
 [ext_resource type="Script" uid="uid://du7nb0ctqj0fi" path="res://prototype2/player.gd" id="1_bgvjx"]
+[ext_resource type="PackedScene" uid="uid://csk1ry0avu4qh" path="res://prototype2/gun.tscn" id="2_xncnr"]
+[ext_resource type="PackedScene" uid="uid://bk4lsna2uqpu8" path="res://prototype2/player_projectile.tscn" id="3_xncnr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgvjx"]
 
@@ -9,6 +11,8 @@ radius = 0.25
 height = 1.0
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_bgvjx")
 
@@ -21,3 +25,8 @@ material = SubResource("StandardMaterial3D_bgvjx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_bgvjx")
+
+[node name="Gun" parent="." instance=ExtResource("2_xncnr")]
+projectile_type = ExtResource("3_xncnr")
+default_offset = Vector3(0, 0, 1.2)
+delay = 0.1

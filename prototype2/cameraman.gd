@@ -15,8 +15,10 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	var centered: bool = Input.is_action_pressed("center")
-	if direction and not centered:
+	if Input.is_action_pressed("center"):
+		Global.centering = !Global.centering
+
+	if direction and not Global.centering:
 		velocity.x = direction.x * speed.x
 		velocity.z = direction.y * speed.y
 	else:
@@ -29,7 +31,7 @@ func _physics_process(delta: float) -> void:
 		player_direction.y = player.global_position.y
 		player.look_direction = player_direction
 
-	if centered:
+	if Global.centering:
 		global_position = _get_centered_position()
 		move_and_slide()
 		global_position.y = floor_raycast.get_collision_point().y
@@ -43,7 +45,7 @@ func _get_centered_position() -> Vector3:
 	return Vector3(
 		player.global_position.x,
 		0.0,
-		player.position.z - height * tan(camera.rotation.x)
+		player.position.z - height * tan(PI/2 - camera.rotation.x)
 	)
 
 func _get_cursor_global_position(ray_length: float = 1000.0):
