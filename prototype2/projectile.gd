@@ -4,7 +4,6 @@ class_name Projectile extends CharacterBody3D
 @export var speed: float = 5.0
 @export var buffer: Array[Projectile]
 @export var max_live_time: float = 5.0
-@export var targets: Array[Script]
 
 var live_time: float = 0.0
 
@@ -17,6 +16,13 @@ func _physics_process(delta: float) -> void:
 		live_time += delta
 		var collision = move_and_collide(velocity * delta)
 		if collision:
+			var collider = collision.get_collider()
+			if collider is Player:
+				(collider as Player).die()
+			if collider is Enemy:
+				(collider as Enemy).hp -= 1
+			if collider is Projectile:
+				(collider as Projectile)._return_to_buffer()
 			_return_to_buffer()
 	else:
 		_return_to_buffer()

@@ -6,3 +6,6 @@ const ENEMY_CORE_SPEED:float = 5.0
 
 func _physics_process(delta: float) -> void:
 	path_follow.progress += ENEMY_CORE_SPEED * delta
+
+func _on_player_dead() -> void:
+	get_tree().reload_current_scene()

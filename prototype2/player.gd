@@ -5,6 +5,11 @@ class_name Player extends CharacterBody3D
 
 var gun : Gun
 
+signal dead
+
+func die() -> void:
+	dead.emit()
+
 func _ready() -> void:
 	gun = $Gun
 	gun.buffer = Projectiles.player_buffer
