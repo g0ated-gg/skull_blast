@@ -1,11 +1,15 @@
 class_name Gun extends Node3D
 
-@export var projectile_type: PackedScene
-@export var buffer: Array[Projectile]
+@export var projectile_types: Array[PackedScene]
+@export var buffers: Array[Array]
+@export var order: Order = Order.DEFAULT
 @export var default_offset: Vector3 = Vector3.ZERO
 @export var delay: float
 
 @onready var delay_timer: Timer = $DelayTimer
+
+enum Order { DEFAULT, RANDOM }
+var index: int = 0
 
 func fire(
 	direction: Vector3 = Vector3(0, 0, 1), 
@@ -16,10 +20,10 @@ func fire(
 		return
 	var user = get_parent_node_3d()
 	var world = get_tree().get_first_node_in_group("World")
-	var projectile: Projectile = buffer.pop_back()
+	var projectile: Projectile = buffers[index].pop_back()
 	if not projectile:
-		projectile = projectile_type.instantiate()
-		projectile.buffer = buffer
+		projectile = projectile_types[index].instantiate()
+		projectile.buffer = buffers[index]
 	projectile.visible = false
 	world.add_child(projectile)
 	projectile.global_position = user.global_position
@@ -33,3 +37,11 @@ func fire(
 	projectile.visible = true
 	if not is_zero_approx(delay) and delay_timer.is_stopped():
 		delay_timer.start(delay)
+
+	if projectile_types.size() > 1:
+		if order == Order.DEFAULT:
+			index += 1
+			if index == projectile_types.size():
+				index = 0
+		elif order == Order.RANDOM:
+			index = randi_range(0, projectile_types.size()-1)

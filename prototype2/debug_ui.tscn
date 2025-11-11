@@ -5,6 +5,10 @@
 [node name="DebugUI" type="VBoxContainer"]
 script = ExtResource("1_k7rua")
 
+[node name="FPS" type="Label" parent="."]
+layout_mode = 2
+text = "FPS: %.1f"
+
 [node name="PlayerBufferSize" type="Label" parent="."]
 layout_mode = 2
 text = "PlayerBufferSize: %d"
@@ -12,3 +16,15 @@ text = "PlayerBufferSize: %d"
 [node name="EnemyBuffer1Size" type="Label" parent="."]
 layout_mode = 2
 text = "EnemyBuffer1Size: %d"
+
+[node name="EnemyBuffer2Size" type="Label" parent="."]
+layout_mode = 2
+text = "EnemyBuffer2Size: %d"
+
+[node name="EnemyHP" type="Label" parent="."]
+layout_mode = 2
+text = "EnemyHP: %d"
+
+[node name="Deaths" type="Label" parent="."]
+layout_mode = 2
+text = "Deaths: %d"

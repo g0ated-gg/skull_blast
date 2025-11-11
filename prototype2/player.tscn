@@ -27,6 +27,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_bgvjx")
 
 [node name="Gun" parent="." instance=ExtResource("2_xncnr")]
-projectile_type = ExtResource("3_xncnr")
+projectile_types = Array[PackedScene]([ExtResource("3_xncnr")])
 default_offset = Vector3(0, 0, 1.2)
 delay = 0.1

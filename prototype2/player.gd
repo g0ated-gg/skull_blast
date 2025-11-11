@@ -8,11 +8,12 @@ var gun : Gun
 signal dead
 
 func die() -> void:
+	Global.deaths += 1
 	dead.emit()
 
 func _ready() -> void:
 	gun = $Gun
-	gun.buffer = Projectiles.player_buffer
+	gun.buffers = [ Projectiles.player_buffer ]
 
 func _physics_process(_delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "up", "down")

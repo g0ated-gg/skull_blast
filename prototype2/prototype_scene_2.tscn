@@ -122,7 +122,7 @@ curve = SubResource("Curve3D_pvorq")
 [node name="CorePathFollow" type="PathFollow3D" parent="CorePath"]
 transform = Transform3D(-4.371138e-08, 0, -0.9999998, 0, 1, 0, 0.9999998, 0, -4.371138e-08, -3, 0, -3)
 
-[node name="EnemyCore" parent="CorePath/CorePathFollow" instance=ExtResource("5_pvorq")]
+[node name="EnemyCore" parent="CorePath/CorePathFollow" groups=["Enemy"] instance=ExtResource("5_pvorq")]
 motion_mode = 0
 
 [connection signal="dead" from="Player" to="." method="_on_player_dead"]

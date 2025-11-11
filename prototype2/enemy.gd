@@ -11,15 +11,3 @@ class_name Enemy extends CharacterBody3D
 
 signal hp_changed
 signal dead
-
-@onready var player: Player = get_tree().get_first_node_in_group("Player")
-@onready var gun: Gun = $Gun
-
-func _ready() -> void:
-	gun.buffer = Projectiles.enemy_buffer_1
-
-func _physics_process(_delta: float) -> void:
-	gun.fire(global_position.direction_to(player.global_position), true)
-
-func _on_dead() -> void:
-	queue_free()
